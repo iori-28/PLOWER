@@ -1,6 +1,14 @@
 # Happy Birthday! — FAAAAHHH Edition
 
-A handmade-looking, mobile-first birthday card. Press the rainbow button to throw illustrated flower bouquets. No dependencies, remote assets, audio, backend, or build step.
+A personal navy-blue, mobile-first birthday card for bubuuu. Press the rainbow button to throw illustrated flower bouquets. No dependencies, remote assets, audio, backend, or build step.
+
+## Visual refinement
+
+The supplied `assets/background/bgDesktop.jpeg` and `assets/background/bgMobile.jpeg` are used directly through relative CSS URLs, with centered `cover` sizing and no dark overlay or distortion. Portrait screens up to 900px switch to the mobile image; landscape uses the desktop composition. Cover sizing crops the outer edges when the viewport and image proportions differ.
+
+The lowercase heading is `happy birthday, bubuuu!`. The Indonesian note, `semoga yang kamu semogakan, tersemogakan 💓`, sits to the right of the original bouquet on desktop and stacks below it on standard phones. Small phones and landscape layouts use a compact arrangement. The fully italic sentence above the button stays visible after taps: `Pretty boys deserve flowers. Lucky for me, I found one.`
+
+Warm ivory and pink typography complements the navy backgrounds. The multicolor button, original bouquet SVG, and all physics parameters, spawning, collisions, and animation timing are preserved. The only JavaScript change removes the old tap-dependent introductory copy.
 
 ## Run
 
@@ -15,7 +23,7 @@ Commit `index.html`, `styles.css`, `script.js`, and `assets/` to a GitHub reposi
 - Heading and birthday message: `index.html`, inside `.greeting`.
 - Palette: the CSS variables at the top of `styles.css`; button gradient and SVG fills set the accent colors.
 - Bouquet artwork: `assets/bouquet.svg`, an original local illustration.
-- Retained bouquet count: `CONFIG.maxBouquets` in `script.js` (50 by default, plus at most 6 fading nodes).
+- Retained bouquet count: `CONFIG.maxBouquets` in `script.js` (currently 100, plus at most 6 fading nodes).
 - Gravity: `CONFIG.gravity` (CSS pixels per second squared). Initial upward speed is calculated to keep the apex on screen.
 - Chaos: `CONFIG.sparkleAt` (6), `CONFIG.chaosAt` (14), and `CONFIG.surpriseEvery` (9). Later every third press throws two bouquets, every sixth throws three. The counter always tracks presses.
 - Throw sizes, spin, rise, and pile depth: `createBouquet()`.
@@ -24,11 +32,13 @@ Commit `index.html`, `styles.css`, `script.js`, and `assets/` to a GitHub reposi
 
 Every press measures the live button rectangle. Bouquets start at its center, scale up, rotate, and follow constant-acceleration trajectories in one requestAnimationFrame loop. Side velocity is calculated from a randomized landing target and predicted flight duration. Impacts damp vertical velocity, horizontal movement, and spin, with a squash and two small bounces. Landed stickers remain. The loop stops when all flowers land.
 
-Old landed stickers fade away at the cap. If all 50 are still flying during extreme rapid input, the oldest flying sticker is retired immediately to maintain the strict state budget. Resize clamps and repositions the pile to the new viewport. Decorative layers ignore pointer events; the button stays above them.
+Old landed stickers fade away at the cap. If all 100 are still flying during extreme rapid input, the oldest flying sticker is retired immediately to maintain the strict state budget. Resize clamps and repositions the pile to the new viewport. Decorative layers ignore pointer events; the button stays above them.
 
 The semantic button supports Enter/Space and visible keyboard focus. Counter announcements debounce for 500 ms. Reduced motion replaces spinning ballistic throws with a 300 ms gentle transfer from the button to the pile, and disables sparkles and wobble. No sound plays.
 
 ## Verification
+
+Visual refinement checks cover exact copy, italic styling, background switching, desktop note placement, and layout bounds at 320×568, 390×844, 768×1024, 844×390, 1366×768, and 1440×1000. The existing integration suite uses the current 100-bouquet cap and allows the existing gravity-500 throws to finish before asserting landing. There is no build or lint configuration.
 
 Run `node --check script.js` for syntax validation. Run `node tests/physics.test.cjs` for real headless Chrome integration checks (Node 22+ required). The test defaults to the standard Windows Chrome installation; set `CHROME_PATH` to your Chrome/Chromium executable on other systems. It starts and stops a temporary loopback HTTP server and browser, and writes ignored screenshots to `tests/artifacts/`.
 

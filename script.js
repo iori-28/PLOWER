@@ -1,6 +1,6 @@
 (() => {
   'use strict';
-  const CONFIG = { gravity: 500, maxBouquets: 100, sparkleAt: 6, chaosAt: 14, surpriseEvery: 9 };
+  const CONFIG = { gravity: 500, maxBouquets: 50, sparkleAt: 6, chaosAt: 14, surpriseEvery: 9 };
   const button = document.querySelector('#throw');
   const layer = document.querySelector('#flowers');
   const countNode = document.querySelector('#count');
@@ -124,7 +124,6 @@
     for (let i = 0; i < total; i++) createBouquet(origin, i);
     if (presses >= CONFIG.sparkleAt) addSparkles(origin);
     if (presses % CONFIG.surpriseEvery === 0) showSurprise();
-    document.querySelector('#hint').textContent = presses >= CONFIG.chaosAt ? 'Okay, now it’s a flower party.' : presses >= CONFIG.sparkleAt ? 'There’s no such thing as too many flowers.' : 'Birthdays deserve flowers. Lots of them.';
     clearTimeout(announcementTimer);
     announcementTimer = setTimeout(() => {
       document.querySelector('#announcement').textContent = `${presses} ${presses === 1 ? 'burst' : 'bursts'} of birthday love thrown.`;
